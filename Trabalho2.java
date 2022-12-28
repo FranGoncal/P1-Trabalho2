@@ -1,8 +1,12 @@
 import java.util.Scanner;
-
+import java.util.Arrays;
 public class Trabalho2 {
-
+	/*
+	 * Francisco Mateus Goncalves Nº20221849 Engenharia Informática	TP5
+	 * Pedro Daniel Duarte Nº20221701 Engenharia Informática TP5
+	 */
 	
+	public static int nLinhas=0;
 	
 	static void menuInicial() {																			// Mostra o menu inicial.
 		System.out.println("(I)nserir linhas no fim (termine com uma linha vazia)");					
@@ -28,22 +32,35 @@ public class Trabalho2 {
 		System.out.println("Mostrar número de (c)aracteres.");
 		System.out.println("\n(V)oltar.");
 	}
+	static String[] adicionarLinhaFim(int tamMax,String linhas[]){
+		Scanner input =new Scanner (System.in);
+		String frase = " ";
+		if(nLinhas != tamMax) {																		// Verifica se foi atingido o tamMax o limite de linhas antes de podermos escrever linhas.
+			System.out.println("Escreva várias linhas, para terminar insira um linha vazia.");
+			while(frase != "" && (nLinhas <= 99)){													// Este while serve para inserir linhas enquanto o utilizador não der um enter vazio.
+				frase = input.nextLine();															// Armazena numa variável chamada frase cada linha escrita pelo utilizador. 
+				if(frase != "") {																	// Este if verifica se a variável frase tem algo escrito, para não contar o enter que finaliza esta ferramenta nos contadores nLinhas e linhasAdicionadas e para não adicionar nada no array linhas[].
+					nLinhas++;																		// Por cada vez que este if é ativo dentro do while é somado +1 à variável nLinhas porque por cada vez que isto acontece também é inserida uma linha pelo utilizador e guardado no array linhas[].
+					linhas[nLinhas-1] = frase;														// No caso da string frase conter texto este é guardado no array linhas[].
+				}
+			}
+		}
+		if(nLinhas == tamMax) {																		// Sempre que o utilizador chegar ou tiver 100 linhas já escritas este if mostra uma mensagem que ajuda o utilizador a entender o está a acontecer e o que pode fazer para solucionar o seu problema.
+			System.out.println("Chegou ao limite de linhas, para escrever mais terá que apagar uma destas.\n");
+		}
+		return(linhas);
+	}
 	public static void main(String[] args) {
-		/*
-		 * Francisco Mateus Goncalves Nº20221849 Engenharia Informática	TP5
-		 * Pedro Daniel Duarte Nº20221701 Engenharia Informática TP5
-		 */
-
 		Scanner input = new Scanner(System.in);
 
 		int tamMax = 100;
-
+		
 		String [] linhas = new String[tamMax];
 		int [] nPalavras = new int[tamMax];
 		int [] nChars = new int[tamMax];
 		boolean [] apagada = new boolean[tamMax];
 
-		int nLinhas = 0;
+		
 		int numLinha = 0;
 		String userInput;
 		String opcaoFerramenta;
@@ -53,26 +70,14 @@ public class Trabalho2 {
 
 		do {
 			menuInicial();
-
 			userInput = input.nextLine();
+			
 			switch(userInput) {
 			case "I" :
 			case "i" :
-				String frase = " ";
-				if(nLinhas != tamMax) {																		// Verifica se foi atingido o tamMax o limite de linhas antes de podermos escrever linhas.
-					System.out.println("Escreva várias linhas, para terminar insira um linha vazia.");
-					while(frase != "" && (nLinhas <= 99)){													// Este while serve para inserir linhas enquanto o utilizador não der um enter vazio.
-						frase = input.nextLine();															// Armazena numa variável chamada frase cada linha escrita pelo utilizador. 
-						if(frase != "") {																	// Este if verifica se a variável frase tem algo escrito, para não contar o enter que finaliza esta ferramenta nos contadores nLinhas e linhasAdicionadas e para não adicionar nada no array linhas[].
-							nLinhas++;																		// Por cada vez que este if é ativo dentro do while é somado +1 à variável nLinhas porque por cada vez que isto acontece também é inserida uma linha pelo utilizador e guardado no array linhas[].
-							linhas[nLinhas-1] = frase;														// No caso da string frase conter texto este é guardado no array linhas[].
-						}
-					}
-				}
-
-				if(nLinhas == 100) {																		// Sempre que o utilizador chegar ou tiver 100 linhas já escritas este if mostra uma mensagem que ajuda o utilizador a entender o está a acontecer e o que pode fazer para solucionar o seu problema.
-					System.out.println("Chegou ao limite de linhas, para escrever mais terá que apagar uma destas.\n");
-				}
+			adicionarLinhaFim(tamMax,linhas);
+				
+				
 				break;
 
 			case "L" :
@@ -104,7 +109,7 @@ public class Trabalho2 {
 			case "e" :
 				do {
 					menuEditar();
-									
+
 
 					userInput = input.nextLine();
 					switch(userInput) {
@@ -242,7 +247,7 @@ public class Trabalho2 {
 			case "f" :
 				do {
 					menuFerramentas();
-					
+
 
 					opcaoFerramenta = input.nextLine();														// A opcaoFerramentas é a variável deste menu de modo a evitar que caso o utilizador escolha a opção "s" no menu editar, o switch do menu principal não entre dentro do case "s" do menu principal.
 					switch(opcaoFerramenta) {
@@ -302,7 +307,7 @@ public class Trabalho2 {
 									palavras[i] = palavraSubstituta;										// Substitui a palavra que procurámos pela substituta na posição posicaoP em que encontramos a palavra dentro deste array de palavras.
 								}
 							}
-							
+
 							linhas[numLinha-1] = "";														// Limpa a string que é a linha toda na posição numLinha.							
 							for(int j = 0; j < palavras.length; j++) {										// Este for serve para adicionar uma a uma, todas as palavras do array palavras[] já "atualizado",à linha numLinha.			
 								linhas[numLinha-1] += (palavras[j]);										// Adicionamos sequencialmente na linha numLinhas do array linhas[] as palavras do array palavras[].
@@ -310,7 +315,7 @@ public class Trabalho2 {
 									linhas[numLinha-1] += " ";
 								}
 							}
-							
+
 							System.out.println("Linha Nº" + (numLinha) + " - " + linhas[numLinha-1]);		// Imprime o resultado da linha.
 
 						}	
