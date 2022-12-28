@@ -16,6 +16,7 @@ public class Trabalho2 {
 		System.out.println("(F)erramentas");
 		System.out.println("(S)air");
 	}
+
 	static void menuEditar() {																			// Mostra o menu editar.
 		System.out.println("\n(I)nserir linha na posição n");								
 		System.out.println("(A)pagar linha na posição n");
@@ -24,6 +25,7 @@ public class Trabalho2 {
 		System.out.println("(E)liminar linhas apagadas");
 		System.out.println("(V)oltar");	
 	}
+
 	static void menuFerramentas() {																		// Mostra o menu Ferramentas.
 		System.out.println("\n(M)ostrar linhas onde ocorre a palavra p.");						
 		System.out.println("(S)ubstituir a palavra p na linha n.");
@@ -32,6 +34,7 @@ public class Trabalho2 {
 		System.out.println("Mostrar número de (c)aracteres.");
 		System.out.println("\n(V)oltar.");
 	}
+
 	static String[] adicionarLinhaFim(int tamMax,String linhas[]){
 
 		String frase = " ";
@@ -65,6 +68,7 @@ public class Trabalho2 {
 		System.out.println();																		// Este print serve apenas para dar um espaço entre o menu principal e o que mostra esta ferramenta.
 
 	}
+
 	static void apagarUltimaLinha(boolean[] apagada) {
 		if(apagada[nLinhas-1] == false) {															// Verifica se a última linha está visível.
 			apagada[nLinhas-1] = true;																// Caso a linha esteja visível mudamos o valor desta variável para true no array apagada[].
@@ -74,6 +78,7 @@ public class Trabalho2 {
 			System.out.println("A última linha já se encontra apagada.\n");							// No caso da última linha já esta apagada ou seja com o valor true no array apagada[], mostramos só uma mensagem ao utilizador que diz isso mesmo.
 		}
 	}
+
 	static void InserirLPosicaoN(int tamMax, String[] linhas, boolean[] apagada ) {
 		if(nLinhas == tamMax) {																// No caso de o número de linhas já ser igual ao tamMax, não permite que esta funcionalidade continue porque não é possível adicionar mais linhas.
 			System.out.println("Chegou ao limite de linhas, para escrever mais terá que apagar uma destas.\n");	// Avisa o utilizador de que chegou ao limite de linhas e escreve uma solução ao seu problema.
@@ -118,6 +123,7 @@ public class Trabalho2 {
 			System.out.println("Linha inválida.\n");										// Caso a linha escolhida seja inválida, aparece uma mensagem que avisa o utilizador de que a linha escolhida é inválida.
 		}
 	}
+
 	static void apagarLinhas(boolean[] apagada) {
 		System.out.println("Qual a linha que em que deseja começar a apagar? ");			// Pedimos a linha onde o utilizador quer começar e acabar de apagar, guardando respetivamente estes valores nas variáveis apagarInicio e apagarFim.
 		int apagarInicio = input.nextInt();
@@ -159,7 +165,7 @@ public class Trabalho2 {
 			System.out.println("Escolheu uma linha visível.");
 		}
 	}
-	
+
 	static void eliminarLinhasApagadas(boolean[] apagada, String[] linhas) {
 		int linhasOcultas = 0;
 		for(int i = 0; i < nLinhas; i++) {													// Este for percorre o array em busca de linhas ocultas.
@@ -185,11 +191,122 @@ public class Trabalho2 {
 			System.out.println("As linhas ocultas foram eliminadas com sucesso!\n");		// No caso contrário do if anterior, este confirma ao utilizador que as linhas foram eliminadas com sucesso.
 		}
 	}
-	
+
 	static void mensagemPadrao() {
 		System.out.println("A opção introduzida é inválida!\n");
 	}
-	
+
+	static void mostrarLinhasComPalavraP(String[] linhas) {
+		String palavra = "";
+		System.out.println("Qual é a palavra que procura?");
+		palavra = input.nextLine();															// Pedimos ao utilizador a palavra que procuramos no texto.
+		boolean frasePrintada = false;														// Variável que verifica se encontramos a palavra que procuramos.
+		for(int i = 0; i < nLinhas; i++) {													// Percorre as linhas que foram inseridas uma a uma.
+			String palavras[] = linhas[i].split(" ");										// Guarda cada palavra de uma linha num array chamado palavras[].
+			for(int j = 0; j < palavras.length; j++) {										// Este for percorre o array palavras[], ou seja percorre todas as palavras da linha.
+				if(palavras[j].equals(palavra)) {											// Compara as palavras de cada posição do array palavras[] com a variável palavra que o utilizador introduziu.
+					System.out.println("Linha Nº" + (i+1) + " - " + linhas[i]);				// Printa a linha se a condição anterior acontecer (se encontrar a palavra que o utilizador pede na linha).
+					frasePrintada = true; 													// Atribui o estado de true para sabermos que encontrou a palavra.
+					break;																	// Só nos interessa printar a linha uma vez, sendo o número de vezes que aparece a palavra que procuramos na linha indiferente, por isso usamos um break.
+				}
+			}
+		}
+		if(frasePrintada == false) {														// No caso de não termos encontrado a palavra ou seja a variável frasePrintada ser false.
+			System.out.println("A palavra \"" + palavra + "\" não existe no texto.");		// Mostramos ao utilizador uma mensagem de que a palavra não foi encontrada.
+		}
+	}
+
+	static void susbstituirPalavraP(String[] linhas) {
+		int numLinha = 0;
+		boolean encontrouPalavra = false;
+		do {																				// Este do while certifica-se de que a linha onde vamos substituir a palavra é válida.
+			System.out.println("Qual a linha em que deseja substituir a palavra?");
+			numLinha = input.nextInt(); 
+			input.nextLine();
+			if(numLinha > nLinhas || numLinha <= 0) {													
+				System.out.println("Número de linha inválido.");							// No caso da linha ser inválida avisa o utilizador.			
+			}
+		}
+		while(numLinha > nLinhas || numLinha <= 0);
+		System.out.println("Qual é a palavra que procura?");
+		String palavraProcurada = input.next();												// Guardamos a palavra que vamos procurar na linha.
+		input.nextLine();
+
+		String palavras[] = linhas[numLinha-1].split(" "); 									// Guardamos todas as palavras da linha numLinha num array chamado palavras[]. 
+		for(int i = 0; i < palavras.length; i++) {											// Este for percorre o array palavras[] todo.
+			if(palavras[i].equals(palavraProcurada)) {										// Compara as palavras do array com a palavraProcurada.
+				encontrouPalavra = true;													// Variável que serve para verificar se chega a encontrar palavra.
+				break;
+			}
+		}					
+		if(encontrouPalavra == false) {														// Verifica se encontrou a variável ou não através da variável encontrouPalavra.
+			System.out.println("Nenhuma palavra encontrada.");								// Como não encontrou a palavra escrevemos esta mensagem.
+		}
+		else {																				// No caso de encontrar a palavra.
+			System.out.println("Qual é a palavra que substituirá?");
+			String palavraSubstituta = input.next();										// Guardamos a palavra que vamos substituir na linha.
+			input.nextLine();
+
+			for(int i = 0; i < palavras.length; i++) {										// Este for percorre o array de palavras[].
+				if(palavras[i].equals(palavraProcurada)) {									// Compara as palavras do array com a palavraProcurada.
+					palavras[i] = palavraSubstituta;										// Substitui a palavra que procurámos pela substituta na posição posicaoP em que encontramos a palavra dentro deste array de palavras.
+				}
+			}
+
+			linhas[numLinha-1] = "";														// Limpa a string que é a linha toda na posição numLinha.							
+			for(int j = 0; j < palavras.length; j++) {										// Este for serve para adicionar uma a uma, todas as palavras do array palavras[] já "atualizado",à linha numLinha.			
+				linhas[numLinha-1] += (palavras[j]);										// Adicionamos sequencialmente na linha numLinhas do array linhas[] as palavras do array palavras[].
+				if(j < (palavras.length-1)) {												// Este if serve para adicionar um espaço entre cada palavra, por isso o uso do -1 na condição.
+					linhas[numLinha-1] += " ";
+				}
+			}
+			System.out.println("Linha Nº" + (numLinha) + " - " + linhas[numLinha-1]);		// Imprime o resultado da linha.
+		}	
+	}
+
+	static void contarLinhasVisiveis(boolean[] apagada) {
+		int fraseVisivel = 0;																// Inicializamos a variável fraseVisivel que vai contar quantas linhas estão visíveis.
+		for(int i = 0; i < nLinhas; i++) {													// Percorre as linhas inseridas.
+			if(apagada[i] == false) {														// Verifica se a linha está visível.
+				fraseVisivel++;																// Por cada linha visível ele soma +1 à variável fraseVisivel.
+			}
+		}
+		System.out.println("O número de linhas visíveis é " + fraseVisivel + ".\n");		// Mostra quantas linhas estão visíveis.
+	}
+
+	static void contarPalavras(String[] linhas,int tamMax,int[] nPalavras) {
+		int contaPalavras = 0;																// Inicializa a variável que faz a soma de palavras de cada linha a zero.
+		for(int i = 0; i < nLinhas; i++) {													// Este for percorre as linhas inseridas.
+			String[] palavras = linhas[i].split(" ");												// Guardamos todas as palavras de cada linha num array chamado palavras[].
+			for(int j = 0; j < palavras.length; j++) {										// Este for percorre o array palavras[].
+				if(palavras[j] != "") {														// Confirma se foi guardado texto no array palavras[].
+					nPalavras[i]++;															// No caso dessa linha do array palavras[] ter texto soma +1 à mesma linha do array nPalavras[].
+				}
+			}
+			contaPalavras += nPalavras[i];													// Somamos todas as linhas do array nPalavras na variável contaPalavras.
+		}
+		System.out.println("O número total de palavras é " + contaPalavras + "."); 			// Mostra quantas palavras.
+		for(int i = 0; i < tamMax; i++) {													// Este for repõe todas as linhas do nosso array nPalavras[] a zero.
+			nPalavras[i] = 0;
+		}
+	}
+
+	static void contarCaracteres(String[] linhas, int[] nChars, int tamMax) {
+		int contaChars = 0;																	// Inicializa a variável que faz a soma de caracteres de cada linha a zero.
+		for(int i = 0; i < nLinhas; i++) {													// Este for percorre as linhas do array linhas[].
+			for(int j = 0; j < linhas[i].length(); j++){									// Este for percorre todos os caracteres da linha i.
+				if(linhas[i].charAt(j) != ' ') {  											// Este if verifica se os caracteres são diferentes de um espaço vazio.
+					nChars[i]++;															// Por cada vez que a condição anterior seja verdade soma +1 ao array nChars.
+				}
+			}
+			contaChars += nChars[i];														// Soma todas as linhas do array nChars para a variável contaChars.
+		}
+		System.out.println("O número total de caracteres é " + contaChars + ".");					
+		for(int i = 0; i < tamMax; i++) {													// Este for repõe todas as linhas do nosso array nChars[] a zero.
+			nChars[i] = 0;
+		}
+	}
+
 	public static void main(String[] args) {
 		//Scanner input = new Scanner(System.in);
 
@@ -200,13 +317,8 @@ public class Trabalho2 {
 		int[] nChars = new int[tamMax];
 		boolean[] apagada = new boolean[tamMax];
 
-
-		int numLinha = 0;
 		String userInput;
 		String opcaoFerramenta;
-		String palavra = "";	
-		boolean encontrouPalavra = false;
-
 
 		do {
 			menuInicial();
@@ -257,15 +369,14 @@ public class Trabalho2 {
 
 					case "E" :
 					case "e" :
-
 						eliminarLinhasApagadas(apagada, linhas);
-						
-						
 						break;
+
 					case "V":
 					case "v":
 						System.out.println();
 						break;
+
 					default:																				// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
 						mensagemPadrao();
 						break;
@@ -279,123 +390,33 @@ public class Trabalho2 {
 				do {
 					menuFerramentas();
 
-
 					opcaoFerramenta = input.nextLine();														// A opcaoFerramentas é a variável deste menu de modo a evitar que caso o utilizador escolha a opção "s" no menu editar, o switch do menu principal não entre dentro do case "s" do menu principal.
 					switch(opcaoFerramenta) {
 
 					case "M":
-					case "m":													
-						System.out.println("Qual é a palavra que procura?");
-						palavra = input.nextLine();															// Pedimos ao utilizador a palavra que procuramos no texto.
-						boolean frasePrintada = false;														// Variável que verifica se encontramos a palavra que procuramos.
-						for(int i = 0; i < nLinhas; i++) {													// Percorre as linhas que foram inseridas uma a uma.
-							String palavras[] = linhas[i].split(" ");										// Guarda cada palavra de uma linha num array chamado palavras[].
-							for(int j = 0; j < palavras.length; j++) {										// Este for percorre o array palavras[], ou seja percorre todas as palavras da linha.
-								if(palavras[j].equals(palavra)) {											// Compara as palavras de cada posição do array palavras[] com a variável palavra que o utilizador introduziu.
-									System.out.println("Linha Nº" + (i+1) + " - " + linhas[i]);				// Printa a linha se a condição anterior acontecer (se encontrar a palavra que o utilizador pede na linha).
-									frasePrintada = true; 													// Atribui o estado de true para sabermos que encontrou a palavra.
-									break;																	// Só nos interessa printar a linha uma vez, sendo o número de vezes que aparece a palavra que procuramos na linha indiferente, por isso usamos um break.
-								}
-							}
-						}
-						if(frasePrintada == false) {														// No caso de não termos encontrado a palavra ou seja a variável frasePrintada ser false.
-							System.out.println("A palavra \"" + palavra + "\" não existe no texto.");		// Mostramos ao utilizador uma mensagem de que a palavra não foi encontrada.
-						}
+					case "m":	
+						mostrarLinhasComPalavraP(linhas);
 						break;
 
 					case "S" :
 					case "s" :
-						do {																				// Este do while certifica-se de que a linha onde vamos substituir a palavra é válida.
-							System.out.println("Qual a linha em que deseja substituir a palavra?");
-							numLinha = input.nextInt(); 
-							input.nextLine();
-							if(numLinha > nLinhas || numLinha <= 0) {													
-								System.out.println("Numero de linha invalido.");							// No caso da linha ser inválida avisa o utilizador.			
-							}
-						}
-						while(numLinha > nLinhas || numLinha <= 0);
-						System.out.println("Qual é a palavra que procura?");
-						String palavraProcurada = input.next();												// Guardamos a palavra que vamos procurar na linha.
-						input.nextLine();
-
-						String palavras[] = linhas[numLinha-1].split(" "); 									// Guardamos todas as palavras da linha numLinha num array chamado palavras[]. 
-						for(int i = 0; i < palavras.length; i++) {											// Este for percorre o array palavras[] todo.
-							if(palavras[i].equals(palavraProcurada)) {										// Compara as palavras do array com a palavraProcurada.
-								encontrouPalavra = true;													// Variável que serve para verificar se chega a encontrar palavra.
-								break;
-							}
-						}					
-						if(encontrouPalavra == false) {														// Verifica se encontrou a variável ou não através da variável encontrouPalavra.
-							System.out.println("Nenhuma palavra encontrada.");								// Como não encontrou a palavra escrevemos esta mensagem.
-						}
-						else {																				// No caso de encontrar a palavra.
-							System.out.println("Qual é a palavra que substituirá?");
-							String palavraSubstituta = input.next();										// Guardamos a palavra que vamos substituir na linha.
-							input.nextLine();
-
-							for(int i = 0; i < palavras.length; i++) {										// Este for percorre o array de palavras[].
-								if(palavras[i].equals(palavraProcurada)) {									// Compara as palavras do array com a palavraProcurada.
-									palavras[i] = palavraSubstituta;										// Substitui a palavra que procurámos pela substituta na posição posicaoP em que encontramos a palavra dentro deste array de palavras.
-								}
-							}
-
-							linhas[numLinha-1] = "";														// Limpa a string que é a linha toda na posição numLinha.							
-							for(int j = 0; j < palavras.length; j++) {										// Este for serve para adicionar uma a uma, todas as palavras do array palavras[] já "atualizado",à linha numLinha.			
-								linhas[numLinha-1] += (palavras[j]);										// Adicionamos sequencialmente na linha numLinhas do array linhas[] as palavras do array palavras[].
-								if(j < (palavras.length-1)) {												// Este if serve para adicionar um espaço entre cada palavra, por isso o uso do -1 na condição.
-									linhas[numLinha-1] += " ";
-								}
-							}
-
-							System.out.println("Linha Nº" + (numLinha) + " - " + linhas[numLinha-1]);		// Imprime o resultado da linha.
-
-						}	
+						susbstituirPalavraP(linhas);
 						break;
 
 					case "L" :
 					case "l" :
-						int fraseVisivel = 0;																// Inicializamos a variável fraseVisivel que vai contar quantas linhas estão visíveis.
-						for(int i = 0; i < nLinhas; i++) {													// Percorre as linhas inseridas.
-							if(apagada[i] == false) {														// Verifica se a linha está visível.
-								fraseVisivel++;																// Por cada linha visível ele soma +1 à variável fraseVisivel.
-							}
-						}
-						System.out.println("O número de linhas visíveis é " + fraseVisivel + ".\n");		// Mostra quantas linhas estão visíveis.
+						contarLinhasVisiveis(apagada);
 						break;
 
 					case "P" :
 					case "p" :
-						int contaPalavras = 0;																// Inicializa a variável que faz a soma de palavras de cada linha a zero.
-						for(int i = 0; i < nLinhas; i++) {													// Este for percorre as linhas inseridas.
-							palavras = linhas[i].split(" ");												// Guardamos todas as palavras de cada linha num array chamado palavras[].
-							for(int j = 0; j < palavras.length; j++) {										// Este for percorre o array palavras[].
-								if(palavras[j] != "") {														// Confirma se foi guardado texto no array palavras[].
-									nPalavras[i]++;															// No caso dessa linha do array palavras[] ter texto soma +1 à mesma linha do array nPalavras[].
-								}
-							}
-							contaPalavras += nPalavras[i];													// Somamos todas as linhas do array nPalavras na variável contaPalavras.
-						}
-						System.out.println("O número total de palavras é " + contaPalavras + "."); 			// Mostra quantas palavras.
-						for(int i = 0; i < tamMax; i++) {													// Este for repõe todas as linhas do nosso array nPalavras[] a zero.
-							nPalavras[i] = 0;
-						}
+						contarPalavras(linhas, tamMax, nPalavras);
 						break;
 
 					case "C" :
 					case "c" :
-						int contaChars = 0;																	// Inicializa a variável que faz a soma de caracteres de cada linha a zero.
-						for(int i = 0; i < nLinhas; i++) {													// Este for percorre as linhas do array linhas[].
-							for(int j = 0; j < linhas[i].length(); j++){									// Este for percorre todos os caracteres da linha i.
-								if(linhas[i].charAt(j) != ' ') {  											// Este if verifica se os caracteres são diferentes de um espaço vazio.
-									nChars[i]++;															// Por cada vez que a condição anterior seja verdade soma +1 ao array nChars.
-								}
-							}
-							contaChars += nChars[i];														// Soma todas as linhas do array nChars para a variável contaChars.
-						}
-						System.out.println("O número total de caracteres é " + contaChars + ".");					
-						for(int i = 0; i < tamMax; i++) {													// Este for repõe todas as linhas do nosso array nChars[] a zero.
-							nChars[i] = 0;
-						}
+						contarCaracteres(linhas, nChars , tamMax);
+
 						break;
 					case "V":
 					case "v":
