@@ -2,6 +2,17 @@ import java.util.Scanner;
 
 public class Trabalho2 {
 
+	
+	
+	static void menuInicial() {																			// Mostra o menu inicial.
+		System.out.println("(I)nserir linhas no fim (termine com uma linha vazia)");					
+		System.out.println("(L)istar linhas");
+		System.out.println("(A)pagar última linha");
+		System.out.println("(E)ditar");
+		System.out.println("(F)erramentas");
+		System.out.println("(S)air");
+	}
+	
 	public static void main(String[] args) {
 		/*
 		 * Francisco Mateus Goncalves Nº20221849 Engenharia Informática	TP5
@@ -26,12 +37,7 @@ public class Trabalho2 {
 
 
 		do {
-			System.out.println("(I)nserir linhas no fim (termine com uma linha vazia)");					// Mostra o menu inicial.
-			System.out.println("(L)istar linhas");
-			System.out.println("(A)pagar última linha");
-			System.out.println("(E)ditar");
-			System.out.println("(F)erramentas");
-			System.out.println("(S)air");
+			menuInicial();
 
 			userInput = input.nextLine();
 			switch(userInput) {
