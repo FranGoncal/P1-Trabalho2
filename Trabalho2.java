@@ -5,37 +5,40 @@ public class Trabalho2 {
 	 * Pedro Daniel Duarte Nº20221701 Engenharia Informática TP5
 	 */
 
-	public static int nLinhas=0;
-	public static Scanner input =new Scanner (System.in);
+	public static int nLinhas = 0;
+	public static Scanner input = new Scanner(System.in);
 
-	static void menuInicial() {																			// Mostra o menu inicial.
+	static String menuInicial() {																			// Mostra o menu inicial.
 		System.out.println("(I)nserir linhas no fim (termine com uma linha vazia)");					
 		System.out.println("(L)istar linhas");
 		System.out.println("(A)pagar última linha");
 		System.out.println("(E)ditar");
 		System.out.println("(F)erramentas");
 		System.out.println("(S)air");
+		return input.nextLine();
 	}
 
-	static void menuEditar() {																			// Mostra o menu editar.
+	static String menuEditar() {																			// Mostra o menu editar.
 		System.out.println("\n(I)nserir linha na posição n");								
 		System.out.println("(A)pagar linha na posição n");
 		System.out.println("Apagar (l)inhas da posição n à posição m");
 		System.out.println("(R)ecuperar linha");
 		System.out.println("(E)liminar linhas apagadas");
 		System.out.println("(V)oltar");	
+		return input.nextLine();
 	}
 
-	static void menuFerramentas() {																		// Mostra o menu Ferramentas.
+	static String menuFerramentas() {																		// Mostra o menu Ferramentas.
 		System.out.println("\n(M)ostrar linhas onde ocorre a palavra p.");						
 		System.out.println("(S)ubstituir a palavra p na linha n.");
 		System.out.println("Mostrar número de (l)inhas.");
 		System.out.println("Mostrar número de (p)palavras.");
 		System.out.println("Mostrar número de (c)aracteres.");
 		System.out.println("\n(V)oltar.");
+		return input.nextLine();
 	}
 
-	static String[] adicionarLinhaFim(int tamMax,String linhas[]){
+	static String[] inserirLinhaFim(int tamMax,String linhas[]){
 
 		String frase = " ";
 		if(nLinhas != tamMax) {																		// Verifica se foi atingido o tamMax o limite de linhas antes de podermos escrever linhas.
@@ -69,17 +72,17 @@ public class Trabalho2 {
 
 	}
 
-	static void apagarUltimaLinha(boolean[] apagada) {
-		if(apagada[nLinhas-1] == false) {															// Verifica se a última linha está visível.
-			apagada[nLinhas-1] = true;																// Caso a linha esteja visível mudamos o valor desta variável para true no array apagada[].
+	static void apagarLinha(boolean[] apagada, int apagarL) {
+		if(apagada[apagarL-1] == false) {															// Verifica se a última linha está visível.
+			apagada[apagarL-1] = true;																// Caso a linha esteja visível mudamos o valor desta variável para true no array apagada[].
 			System.out.println("A linha foi apagada.\n");											// Mostra uma mensagem que confirma ao utilizador que a linha foi apagada.
 		}
 		else {
-			System.out.println("A última linha já se encontra apagada.\n");							// No caso da última linha já esta apagada ou seja com o valor true no array apagada[], mostramos só uma mensagem ao utilizador que diz isso mesmo.
+			System.out.println("A linha já se encontra apagada.\n");							// No caso da última linha já esta apagada ou seja com o valor true no array apagada[], mostramos só uma mensagem ao utilizador que diz isso mesmo.
 		}
 	}
 
-	static void InserirLPosicaoN(int tamMax, String[] linhas, boolean[] apagada ) {
+	static void inserirLPosicaoN(int tamMax, String[] linhas, boolean[] apagada ) {
 		if(nLinhas == tamMax) {																// No caso de o número de linhas já ser igual ao tamMax, não permite que esta funcionalidade continue porque não é possível adicionar mais linhas.
 			System.out.println("Chegou ao limite de linhas, para escrever mais terá que apagar uma destas.\n");	// Avisa o utilizador de que chegou ao limite de linhas e escreve uma solução ao seu problema.
 		}
@@ -106,25 +109,19 @@ public class Trabalho2 {
 
 	}
 
-	static void apagarLinhaN(boolean[] apagada) {
+	static void apagarLPosicaoN(boolean[] apagada) {
 		System.out.println("Qual a posição que deseja apagar?");							// Pedimos a posição a apagar ao utilizador.
 		int apagarL = input.nextInt();														// Guardamos essa posição na variável apagarL.
 		input.nextLine();
 		if(apagarL > 0 && apagarL <= nLinhas) {												// Verificamos se a linha introduzida é válida.
-			if(apagada[apagarL-1] == false) {												// Caso seja válida e esteja visível o valor troca para true, ou seja apagada.
-				apagada[apagarL-1] = true;
-				System.out.println("A linha escolhida foi apagada com sucesso!");
-			}
-			else {
-				System.out.println("A " + apagarL + "ª linha já se encontra apagada.\n");	// Caso seja válida mas não esteja visível, o utilizador recebe uma mensagem que o avisa de que a linha já estava apagada.
-			}
+			apagarLinha(apagada, apagarL);
 		}
 		else {
 			System.out.println("Linha inválida.\n");										// Caso a linha escolhida seja inválida, aparece uma mensagem que avisa o utilizador de que a linha escolhida é inválida.
 		}
 	}
 
-	static void apagarLinhas(boolean[] apagada) {
+	static void apagarIntervaloLinhas(boolean[] apagada) {
 		System.out.println("Qual a linha que em que deseja começar a apagar? ");			// Pedimos a linha onde o utilizador quer começar e acabar de apagar, guardando respetivamente estes valores nas variáveis apagarInicio e apagarFim.
 		int apagarInicio = input.nextInt();
 		System.out.println("Qual a última linha que deseja apagar? ");
@@ -216,6 +213,9 @@ public class Trabalho2 {
 		}
 	}
 
+	static void procuraPalavra(int num) {
+		
+	}
 	static void susbstituirPalavraP(String[] linhas) {
 		int numLinha = 0;
 		boolean encontrouPalavra = false;
@@ -233,8 +233,8 @@ public class Trabalho2 {
 		input.nextLine();
 
 		String palavras[] = linhas[numLinha-1].split(" "); 									// Guardamos todas as palavras da linha numLinha num array chamado palavras[]. 
-		for(int i = 0; i < palavras.length; i++) {											// Este for percorre o array palavras[] todo.
-			if(palavras[i].equals(palavraProcurada)) {										// Compara as palavras do array com a palavraProcurada.
+		for(int j = 0; j < palavras.length; j++) {											// Este for percorre o array palavras[] todo.
+			if(palavras[j].equals(palavraProcurada)) {										// Compara as palavras do array com a palavraProcurada.
 				encontrouPalavra = true;													// Variável que serve para verificar se chega a encontrar palavra.
 				break;
 			}
@@ -321,13 +321,12 @@ public class Trabalho2 {
 		String opcaoFerramenta;
 
 		do {
-			menuInicial();
-			userInput = input.nextLine();
+			userInput =	menuInicial();
 
 			switch(userInput) {
 			case "I" :
 			case "i" :
-				adicionarLinhaFim(tamMax,linhas);
+				inserirLinhaFim(tamMax,linhas);
 				break;
 
 			case "L" :
@@ -337,29 +336,29 @@ public class Trabalho2 {
 
 			case "A" :
 			case "a" :
-				apagarUltimaLinha(apagada);
+				apagarLinha(apagada, nLinhas);
 				break;
 
 			case "E" :
 			case "e" :
 				do {
-					menuEditar();
-					userInput = input.nextLine();
+					userInput = menuEditar();
+
 					switch(userInput) {
 
 					case "I" :
 					case "i" :
-						InserirLPosicaoN(tamMax, linhas, apagada);
+						inserirLPosicaoN(tamMax, linhas, apagada);
 						break;
 
 					case "A" :
 					case "a" :
-						apagarLinhaN(apagada);
+						apagarLPosicaoN(apagada);
 						break;
 
 					case "l" :
 					case "L" :
-						apagarLinhas(apagada);
+						apagarIntervaloLinhas(apagada);
 						break;
 
 					case "R" :
@@ -388,9 +387,8 @@ public class Trabalho2 {
 			case "F" :
 			case "f" :
 				do {
-					menuFerramentas();
+					opcaoFerramenta = menuFerramentas();													// A opcaoFerramentas é a variável deste menu de modo a evitar que caso o utilizador escolha a opção "s" no menu editar, o switch do menu principal não entre dentro do case "s" do menu principal.
 
-					opcaoFerramenta = input.nextLine();														// A opcaoFerramentas é a variável deste menu de modo a evitar que caso o utilizador escolha a opção "s" no menu editar, o switch do menu principal não entre dentro do case "s" do menu principal.
 					switch(opcaoFerramenta) {
 
 					case "M":
