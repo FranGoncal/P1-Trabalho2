@@ -100,6 +100,96 @@ public class Trabalho2 {
 
 
 	}
+
+	static void apagarLinhaN(boolean[] apagada) {
+		System.out.println("Qual a posição que deseja apagar?");							// Pedimos a posição a apagar ao utilizador.
+		int apagarL = input.nextInt();														// Guardamos essa posição na variável apagarL.
+		input.nextLine();
+		if(apagarL > 0 && apagarL <= nLinhas) {												// Verificamos se a linha introduzida é válida.
+			if(apagada[apagarL-1] == false) {												// Caso seja válida e esteja visível o valor troca para true, ou seja apagada.
+				apagada[apagarL-1] = true;
+				System.out.println("A linha escolhida foi apagada com sucesso!");
+			}
+			else {
+				System.out.println("A " + apagarL + "ª linha já se encontra apagada.\n");	// Caso seja válida mas não esteja visível, o utilizador recebe uma mensagem que o avisa de que a linha já estava apagada.
+			}
+		}
+		else {
+			System.out.println("Linha inválida.\n");										// Caso a linha escolhida seja inválida, aparece uma mensagem que avisa o utilizador de que a linha escolhida é inválida.
+		}
+	}
+	static void apagarLinhas(boolean[] apagada) {
+		System.out.println("Qual a linha que em que deseja começar a apagar? ");			// Pedimos a linha onde o utilizador quer começar e acabar de apagar, guardando respetivamente estes valores nas variáveis apagarInicio e apagarFim.
+		int apagarInicio = input.nextInt();
+		System.out.println("Qual a última linha que deseja apagar? ");
+		int apagarFim = input.nextInt();
+		input.nextLine();
+		if(apagarInicio > 0 && apagarInicio < apagarFim && apagarFim <= nLinhas) {			// Este if verifica se as linhas têm valores válidos.
+			System.out.println("As linhas foram apagadas com sucesso!");
+			for(int i = 0; i <= apagarFim-apagarInicio; i++) {								// Este for percorre o intervalo (apagarFim-apagarInicio), ou seja percorre as linhas que o utilizador que apagar e altera os seus valores independentemente de como estejam para true no array apagada[].							
+				apagada[apagarInicio-1+i] = true;											// Define true todas as linhas entre o intervalo (apagarFim-apagarInicio) no array apagada[].
+			}
+		}
+		else {
+			System.out.println("Limite de linhas inválido.\n");								// Caso os limites das linhas sejam inválidos avisa o utilizador de tal.
+		}
+	}
+
+	static void recuperarLinha(boolean[] apagada, String[] linhas) {
+		for(int i = 0; i < nLinhas; i++) {													// Este for mostra todas as linhas para o utilizador escolher a linha que vai recuperar.
+			System.out.print("Linha Nº" + (i+1) + " - ");
+			if (apagada[i] == false) {
+				System.out.println(linhas[i]);
+			}
+			else {
+				System.out.println(linhas[i] + "\t(apagada)");
+			}
+		}
+		System.out.println("\nPretende recuperar qual das linhas?");
+		int recuperarL = input.nextInt();													// Pedimos ao utilizador a posição da linha para recuperar.
+		input.nextLine();
+		if(recuperarL < 1 || recuperarL > nLinhas) {										// Verificamos se é uma linha válida e informamos o utilizador caso não seja.
+			System.out.println("A linha introduzida foi inválida!");
+		}
+		else if(apagada[recuperarL-1] == true) {											// Sendo a linha válida, caso a linha esteja apagada, mudamos o seu estado para visível e mostramos uma mensagem ao utilizador de que isso aconteceu.
+			System.out.println("A linha foi recuperada.");	
+			apagada[recuperarL-1] = false;													// Torna a linha da posição pedida ao utilizador visível.
+		}		
+		else if(apagada[recuperarL-1] == false) {											// Sendo a linha válida, mas já estando visível, mostra ao utilizador uma mensagem que o informe.
+			System.out.println("Escolheu uma linha visível.");
+		}
+	}
+	
+	static void eliminarLinhasApagadas(boolean[] apagada, String[] linhas) {
+		int linhasOcultas = 0;
+		for(int i = 0; i < nLinhas; i++) {													// Este for percorre o array em busca de linhas ocultas.
+			if(apagada[i] == true) {														// Comparação de cada linha ao valor true (oculto).
+				linhasOcultas++;															// Caso a linha esteja oculta a variável linhasOcultas soma +1.
+				if(i < nLinhas-1) {
+					for(int l = i; l <= nLinhas; l++) {										// Este for percorre um array entre a linha i e a última linha do array ou seja entre i e nLinhas.
+						linhas[(l)] = linhas[l+1];											// Guarda todas as linhas por baixo da linha oculta numa posição acima.
+						apagada[(l)] = apagada[l+1];										// São guardados no array apagada[] os estados das linhas abaixo da linha oculta uma linha para cima.
+					}
+				}
+				else {
+					apagada[(i)] = false;
+				}
+				nLinhas--;																	// Reduz o número total de linhas porque retiramos uma por cada vez que i soma +1.
+				i--;  																		// Serve para quando encontrarmos uma linha oculta, após fazerem-se as trocas de strings e booleans entre as linhas, para voltar a verificar se a linha que eliminou voltou a tomar o valor de oculta (se a linha que estava por baixo também era oculta).							
+			}
+		}
+		if(linhasOcultas == 0) {															// No caso de ele não ter encontrado nenhuma linha oculta, é apresentado ao utilizador uma mensagem de que não aconteceu nenhuma alteração.
+			System.out.println("Não existem linhas ocultas, logo não houve nenhuma alteração.\n");
+		}
+		else {
+			System.out.println("As linhas ocultas foram eliminadas com sucesso!\n");		// No caso contrário do if anterior, este confirma ao utilizador que as linhas foram eliminadas com sucesso.
+		}
+	}
+	
+	static void mensagemPadrao() {
+		System.out.println("A opção introduzida é inválida!\n");
+	}
+	
 	public static void main(String[] args) {
 		//Scanner input = new Scanner(System.in);
 
@@ -152,102 +242,32 @@ public class Trabalho2 {
 
 					case "A" :
 					case "a" :
-
-						System.out.println("Qual a posição que deseja apagar?");							// Pedimos a posição a apagar ao utilizador.
-						int apagarL = input.nextInt();														// Guardamos essa posição na variável apagarL.
-						input.nextLine();
-						if(apagarL > 0 && apagarL <= nLinhas) {												// Verificamos se a linha introduzida é válida.
-							if(apagada[apagarL-1] == false) {												// Caso seja válida e esteja visível o valor troca para true, ou seja apagada.
-								apagada[apagarL-1] = true;
-								System.out.println("A linha escolhida foi apagada com sucesso!");
-							}
-							else {
-								System.out.println("A " + apagarL + "ª linha já se encontra apagada.\n");	// Caso seja válida mas não esteja visível, o utilizador recebe uma mensagem que o avisa de que a linha já estava apagada.
-							}
-						}
-						else {
-							System.out.println("Linha inválida.\n");										// Caso a linha escolhida seja inválida, aparece uma mensagem que avisa o utilizador de que a linha escolhida é inválida.
-						}
+						apagarLinhaN(apagada);
 						break;
 
 					case "l" :
 					case "L" :
-						System.out.println("Qual a linha que em que deseja começar a apagar? ");			// Pedimos a linha onde o utilizador quer começar e acabar de apagar, guardando respetivamente estes valores nas variáveis apagarInicio e apagarFim.
-						int apagarInicio = input.nextInt();
-						System.out.println("Qual a última linha que deseja apagar? ");
-						int apagarFim = input.nextInt();
-						input.nextLine();
-						if(apagarInicio > 0 && apagarInicio < apagarFim && apagarFim <= nLinhas) {			// Este if verifica se as linhas têm valores válidos.
-							System.out.println("As linhas foram apagadas com sucesso!");
-							for(int i = 0; i <= apagarFim-apagarInicio; i++) {								// Este for percorre o intervalo (apagarFim-apagarInicio), ou seja percorre as linhas que o utilizador que apagar e altera os seus valores independentemente de como estejam para true no array apagada[].							
-								apagada[apagarInicio-1+i] = true;											// Define true todas as linhas entre o intervalo (apagarFim-apagarInicio) no array apagada[].
-							}
-						}
-						else {
-							System.out.println("Limite de linhas inválido.\n");								// Caso os limites das linhas sejam inválidos avisa o utilizador de tal.
-						}
+						apagarLinhas(apagada);
 						break;
 
 					case "R" :
 					case "r" :
-						for(int i = 0; i < nLinhas; i++) {													// Este for mostra todas as linhas para o utilizador escolher a linha que vai recuperar.
-							System.out.print("Linha Nº" + (i+1) + " - ");
-							if (apagada[i] == false) {
-								System.out.println(linhas[i]);
-							}
-							else {
-								System.out.println(linhas[i] + "\t(apagada)");
-							}
-
-						}
-						System.out.println("\nPretende recuperar qual das linhas?");
-						int recuperarL = input.nextInt();													// Pedimos ao utilizador a posição da linha para recuperar.
-						input.nextLine();
-						if(recuperarL < 1 || recuperarL > nLinhas) {										// Verificamos se é uma linha válida e informamos o utilizador caso não seja.
-							System.out.println("A linha introduzida foi inválida!");
-						}
-						else if(apagada[recuperarL-1] == true) {											// Sendo a linha válida, caso a linha esteja apagada, mudamos o seu estado para visível e mostramos uma mensagem ao utilizador de que isso aconteceu.
-							System.out.println("A linha foi recuperada.");	
-							apagada[recuperarL-1] = false;													// Torna a linha da posição pedida ao utilizador visível.
-						}		
-						else if(apagada[recuperarL-1] == false) {											// Sendo a linha válida, mas já estando visível, mostra ao utilizador uma mensagem que o informe.
-							System.out.println("Escolheu uma linha visível.");
-						}
+						recuperarLinha(apagada,linhas);
 						break;
 
 					case "E" :
 					case "e" :
 
-						int linhasOcultas = 0;
-						for(int i = 0; i < nLinhas; i++) {													// Este for percorre o array em busca de linhas ocultas.
-							if(apagada[i] == true) {														// Comparação de cada linha ao valor true (oculto).
-								linhasOcultas++;															// Caso a linha esteja oculta a variável linhasOcultas soma +1.
-								if(i < nLinhas-1) {
-									for(int l = i; l <= nLinhas; l++) {										// Este for percorre um array entre a linha i e a última linha do array ou seja entre i e nLinhas.
-										linhas[(l)] = linhas[l+1];											// Guarda todas as linhas por baixo da linha oculta numa posição acima.
-										apagada[(l)] = apagada[l+1];										// São guardados no array apagada[] os estados das linhas abaixo da linha oculta uma linha para cima.
-									}
-								}
-								else {
-									apagada[(i)] = false;
-								}
-								nLinhas--;																	// Reduz o número total de linhas porque retiramos uma por cada vez que i soma +1.
-								i--;  																		// Serve para quando encontrarmos uma linha oculta, após fazerem-se as trocas de strings e booleans entre as linhas, para voltar a verificar se a linha que eliminou voltou a tomar o valor de oculta (se a linha que estava por baixo também era oculta).							
-							}
-						}
-						if(linhasOcultas == 0) {															// No caso de ele não ter encontrado nenhuma linha oculta, é apresentado ao utilizador uma mensagem de que não aconteceu nenhuma alteração.
-							System.out.println("Não existem linhas ocultas, logo não houve nenhuma alteração.\n");
-						}
-						else {
-							System.out.println("As linhas ocultas foram eliminadas com sucesso!\n");		// No caso contrário do if anterior, este confirma ao utilizador que as linhas foram eliminadas com sucesso.
-						}
+						eliminarLinhasApagadas(apagada, linhas);
+						
+						
 						break;
 					case "V":
 					case "v":
 						System.out.println();
 						break;
 					default:																				// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
-						System.out.println("A opção introduzida é inválida!\n");
+						mensagemPadrao();
 						break;
 					}
 				}
@@ -382,7 +402,7 @@ public class Trabalho2 {
 						System.out.println();
 						break;
 					default:																				// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
-						System.out.println("A opção introduzida é inválida!\n");
+						mensagemPadrao();
 						break;
 					}
 				}
@@ -390,11 +410,11 @@ public class Trabalho2 {
 				break;																						// Este while faz com que apareça este menu sucessivamente até que o utilizador queira sair deste menu.
 
 			case "s":
-			case "S":				
+			case "S":		
 				break;
 
 			default:																						// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
-				System.out.println("A opção introduzida é inválida!\n");
+				mensagemPadrao();
 			}
 		} 
 		while(!(userInput.equals("s") || userInput.equals("S")));											// Este while faz com que apareça este menu sucessivamente até que o utilizador queira sair deste menu.
