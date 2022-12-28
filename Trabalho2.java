@@ -12,7 +12,22 @@ public class Trabalho2 {
 		System.out.println("(F)erramentas");
 		System.out.println("(S)air");
 	}
-	
+	static void menuEditar() {																			// Mostra o menu editar.
+		System.out.println("\n(I)nserir linha na posição n");								
+		System.out.println("(A)pagar linha na posição n");
+		System.out.println("Apagar (l)inhas da posição n à posição m");
+		System.out.println("(R)ecuperar linha");
+		System.out.println("(E)liminar linhas apagadas");
+		System.out.println("(V)oltar");	
+	}
+	static void menuFerramentas() {																		// Mostra o menu Ferramentas.
+		System.out.println("\n(M)ostrar linhas onde ocorre a palavra p.");						
+		System.out.println("(S)ubstituir a palavra p na linha n.");
+		System.out.println("Mostrar número de (l)inhas.");
+		System.out.println("Mostrar número de (p)palavras.");
+		System.out.println("Mostrar número de (c)aracteres.");
+		System.out.println("\n(V)oltar.");
+	}
 	public static void main(String[] args) {
 		/*
 		 * Francisco Mateus Goncalves Nº20221849 Engenharia Informática	TP5
@@ -88,12 +103,8 @@ public class Trabalho2 {
 			case "E" :
 			case "e" :
 				do {
-					System.out.println("\n(I)nserir linha na posição n");									// Mostra o menu editar.
-					System.out.println("(A)pagar linha na posição n");
-					System.out.println("Apagar (l)inhas da posição n à posição m");
-					System.out.println("(R)ecuperar linha");
-					System.out.println("(E)liminar linhas apagadas");
-					System.out.println("(V)oltar");					
+					menuEditar();
+									
 
 					userInput = input.nextLine();
 					switch(userInput) {
@@ -230,12 +241,8 @@ public class Trabalho2 {
 			case "F" :
 			case "f" :
 				do {
-					System.out.println("\n(M)ostrar linhas onde ocorre a palavra p.");						// Mostra o menu editar.
-					System.out.println("(S)ubstituir a palavra p na linha n.");
-					System.out.println("Mostrar número de (l)inhas.");
-					System.out.println("Mostrar número de (p)palavras.");
-					System.out.println("Mostrar número de (c)aracteres.");
-					System.out.println("\n(V)oltar.");
+					menuFerramentas();
+					
 
 					opcaoFerramenta = input.nextLine();														// A opcaoFerramentas é a variável deste menu de modo a evitar que caso o utilizador escolha a opção "s" no menu editar, o switch do menu principal não entre dentro do case "s" do menu principal.
 					switch(opcaoFerramenta) {
