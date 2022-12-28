@@ -1,13 +1,13 @@
 import java.util.Scanner;
-import java.util.Arrays;
 public class Trabalho2 {
 	/*
 	 * Francisco Mateus Goncalves Nº20221849 Engenharia Informática	TP5
 	 * Pedro Daniel Duarte Nº20221701 Engenharia Informática TP5
 	 */
-	
+
 	public static int nLinhas=0;
-	
+	public static Scanner input =new Scanner (System.in);
+
 	static void menuInicial() {																			// Mostra o menu inicial.
 		System.out.println("(I)nserir linhas no fim (termine com uma linha vazia)");					
 		System.out.println("(L)istar linhas");
@@ -33,7 +33,7 @@ public class Trabalho2 {
 		System.out.println("\n(V)oltar.");
 	}
 	static String[] adicionarLinhaFim(int tamMax,String linhas[]){
-		Scanner input =new Scanner (System.in);
+
 		String frase = " ";
 		if(nLinhas != tamMax) {																		// Verifica se foi atingido o tamMax o limite de linhas antes de podermos escrever linhas.
 			System.out.println("Escreva várias linhas, para terminar insira um linha vazia.");
@@ -48,19 +48,69 @@ public class Trabalho2 {
 		if(nLinhas == tamMax) {																		// Sempre que o utilizador chegar ou tiver 100 linhas já escritas este if mostra uma mensagem que ajuda o utilizador a entender o está a acontecer e o que pode fazer para solucionar o seu problema.
 			System.out.println("Chegou ao limite de linhas, para escrever mais terá que apagar uma destas.\n");
 		}
+
 		return(linhas);
 	}
+
+	static void listarLinhas(boolean[] apagada, String[] linhas){
+		for(int i = 0; i < nLinhas; i++) {															// Este for percorre os arrays apagada[] e linhas[], usando o apagada[] para verificar se pode ou não mostrar o que está guardado no array linhas[].
+			System.out.print("Linha Nº" + (i + 1) + " - ");											// Identifica a linha que será printada para uma mais fácil leitura. Usamos apenas um print porque não queremos passar de linha.
+			if(apagada[i] == false) {																// Verifica se o que ta escrito na linha i (que vai mudando consoante o for) do array apagado[]	é falso ou seja, se a frase está visível.							
+				System.out.println(linhas[i]);														// Este println escreve as linhas do array linhas[] consoante o seu estado visível ou não.
+			}
+			else{																					// No caso de a linha estar oculta fazemos um println para passar para a linha seguinte visto que a última coisa que apareceu na consola foi um print e não um println.
+				System.out.println();
+			}
+		}
+		System.out.println();																		// Este print serve apenas para dar um espaço entre o menu principal e o que mostra esta ferramenta.
+
+	}
+	static void apagarUltimaLinha(boolean[] apagada) {
+		if(apagada[nLinhas-1] == false) {															// Verifica se a última linha está visível.
+			apagada[nLinhas-1] = true;																// Caso a linha esteja visível mudamos o valor desta variável para true no array apagada[].
+			System.out.println("A linha foi apagada.\n");											// Mostra uma mensagem que confirma ao utilizador que a linha foi apagada.
+		}
+		else {
+			System.out.println("A última linha já se encontra apagada.\n");							// No caso da última linha já esta apagada ou seja com o valor true no array apagada[], mostramos só uma mensagem ao utilizador que diz isso mesmo.
+		}
+	}
+	static void InserirLPosicaoN(int tamMax, String[] linhas, boolean[] apagada ) {
+		if(nLinhas == tamMax) {																// No caso de o número de linhas já ser igual ao tamMax, não permite que esta funcionalidade continue porque não é possível adicionar mais linhas.
+			System.out.println("Chegou ao limite de linhas, para escrever mais terá que apagar uma destas.\n");	// Avisa o utilizador de que chegou ao limite de linhas e escreve uma solução ao seu problema.
+		}
+
+		else {
+			System.out.println("Qual a posição em que deseja inserir uma linha?");				// Pede uma posição ao utilizador para inserir uma linha.
+			int inserirL = input.nextInt();														// Guardamos o que o utilizador introduz na consola na variável inserirL, que simboliza o número da linha onde o utilizador quer introduzir a linha. 
+			input.nextLine();																	// Faz uma limpeza do scanner.
+			if(inserirL > 0 && inserirL <= nLinhas) {											// Este if faz uma validação do número da linha introduzida pelo utilizador.
+				for(int i = 0; i <= nLinhas-inserirL; i++) {									// Este for percorre os arrays linhas[] e apagada[] desde a última linha até à linha que o utilizador escolheu, representando isso o intervalo (nLinhas-inserirL).									
+					linhas[nLinhas-i] = linhas[nLinhas-1-i];									// Guardamos os valores por baixo da linha que vai ser introduzida do array linhas[] no espaço seguinte do mesmo array. 
+					apagada[nLinhas-i] = apagada[nLinhas-1-i];									// Guardamos os valores por baixo da linha que vai ser introduzida do array apagada[] no espaço seguinte do mesmo array.
+				}
+				System.out.print("Escreva uma linha: ");										// Pedimos o texto ao utilizador para ele por na linha.			
+				linhas[inserirL-1] = input.nextLine();											// E guardamos esse texto na posição correspondente no array linhas[] a inserirL.
+				apagada[inserirL-1] = false;													// Tornamos essa linha visível independentemente do seu estado anterior.
+				nLinhas++;																		// Como adicionamos uma linha adicionamos +1 à variável nLinhas.
+			}
+			else {																				// Caso o utilizador tenha escrito uma linha inválida ele mostra um aviso.
+				System.out.println("Escolheu uma linha inválida.");
+			}
+		}
+
+
+	}
 	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
+		//Scanner input = new Scanner(System.in);
 
 		int tamMax = 100;
-		
-		String [] linhas = new String[tamMax];
-		int [] nPalavras = new int[tamMax];
-		int [] nChars = new int[tamMax];
-		boolean [] apagada = new boolean[tamMax];
 
-		
+		String[] linhas = new String[tamMax];
+		int[] nPalavras = new int[tamMax];
+		int[] nChars = new int[tamMax];
+		boolean[] apagada = new boolean[tamMax];
+
+
 		int numLinha = 0;
 		String userInput;
 		String opcaoFerramenta;
@@ -71,72 +121,33 @@ public class Trabalho2 {
 		do {
 			menuInicial();
 			userInput = input.nextLine();
-			
+
 			switch(userInput) {
 			case "I" :
 			case "i" :
-			adicionarLinhaFim(tamMax,linhas);
-				
-				
+				adicionarLinhaFim(tamMax,linhas);
 				break;
 
 			case "L" :
 			case "l" :
-				for(int i = 0; i < nLinhas; i++) {															// Este for percorre os arrays apagada[] e linhas[], usando o apagada[] para verificar se pode ou não mostrar o que está guardado no array linhas[].
-					System.out.print("Linha Nº" + (i + 1) + " - ");											// Identifica a linha que será printada para uma mais fácil leitura. Usamos apenas um print porque não queremos passar de linha.
-					if(apagada[i] == false) {																// Verifica se o que ta escrito na linha i (que vai mudando consoante o for) do array apagado[]	é falso ou seja, se a frase está visível.							
-						System.out.println(linhas[i]);														// Este println escreve as linhas do array linhas[] consoante o seu estado visível ou não.
-					}
-					else{																					// No caso de a linha estar oculta fazemos um println para passar para a linha seguinte visto que a última coisa que apareceu na consola foi um print e não um println.
-						System.out.println();
-					}
-				}
-				System.out.println();																		// Este print serve apenas para dar um espaço entre o menu principal e o que mostra esta ferramenta.
+				listarLinhas(apagada,linhas);
 				break;
+
 			case "A" :
 			case "a" :
-
-				if(apagada[nLinhas-1] == false) {															// Verifica se a última linha está visível.
-					apagada[nLinhas-1] = true;																// Caso a linha esteja visível mudamos o valor desta variável para true no array apagada[].
-					System.out.println("A linha foi apagada.\n");											// Mostra uma mensagem que confirma ao utilizador que a linha foi apagada.
-				}
-				else {
-					System.out.println("A última linha já se encontra apagada.\n");							// No caso da última linha já esta apagada ou seja com o valor true no array apagada[], mostramos só uma mensagem ao utilizador que diz isso mesmo.
-				}
+				apagarUltimaLinha(apagada);
 				break;
 
 			case "E" :
 			case "e" :
 				do {
 					menuEditar();
-
-
 					userInput = input.nextLine();
 					switch(userInput) {
 
-
 					case "I" :
 					case "i" :
-						if(nLinhas == tamMax) {																// No caso de o número de linhas já ser igual ao tamMax, não permite que esta funcionalidade continue porque não é possível adicionar mais linhas.
-							System.out.println("Chegou ao limite de linhas, para escrever mais terá que apagar uma destas.\n");	// Avisa o utilizador de que chegou ao limite de linhas e escreve uma solução ao seu problema.
-							break;
-						}
-						System.out.println("Qual a posição em que deseja inserir uma linha?");				// Pede uma posição ao utilizador para inserir uma linha.
-						int inserirL = input.nextInt();														// Guardamos o que o utilizador introduz na consola na variável inserirL, que simboliza o número da linha onde o utilizador quer introduzir a linha. 
-						input.nextLine();																	// Faz uma limpeza do scanner.
-						if(inserirL > 0 && inserirL <= nLinhas) {											// Este if faz uma validação do número da linha introduzida pelo utilizador.
-							for(int i = 0; i <= nLinhas-inserirL; i++) {									// Este for percorre os arrays linhas[] e apagada[] desde a última linha até à linha que o utilizador escolheu, representando isso o intervalo (nLinhas-inserirL).									
-								linhas[nLinhas-i] = linhas[nLinhas-1-i];									// Guardamos os valores por baixo da linha que vai ser introduzida do array linhas[] no espaço seguinte do mesmo array. 
-								apagada[nLinhas-i] = apagada[nLinhas-1-i];									// Guardamos os valores por baixo da linha que vai ser introduzida do array apagada[] no espaço seguinte do mesmo array.
-							}
-							System.out.print("Escreva uma linha: ");										// Pedimos o texto ao utilizador para ele por na linha.			
-							linhas[inserirL-1] = input.nextLine();											// E guardamos esse texto na posição correspondente no array linhas[] a inserirL.
-							apagada[inserirL-1] = false;													// Tornamos essa linha visível independentemente do seu estado anterior.
-							nLinhas++;																		// Como adicionamos uma linha adicionamos +1 à variável nLinhas.
-						}
-						else {																				// Caso o utilizador tenha escrito uma linha inválida ele mostra um aviso.
-							System.out.println("Escolheu uma linha inválida.");
-						}
+						InserirLPosicaoN(tamMax, linhas, apagada);
 						break;
 
 					case "A" :
