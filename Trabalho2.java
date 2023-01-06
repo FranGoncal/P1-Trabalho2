@@ -8,32 +8,32 @@ public class Trabalho2 {
 	public static int nLinhas = 0;
 	public static Scanner input = new Scanner(System.in);
 
-	
+
 	static int pedeInteiro(int numero) {
-		boolean naoEInt=true;
+		boolean naoEInt = true;
 		do{
-			
+
 			if(input.hasNextInt()) {
-				numero=input.nextInt();		
-				naoEInt=false;
+				numero = input.nextInt();		
+				naoEInt = false;
 			}
 			else {
 				System.out.println("Escreva um número válido!");
 				input.nextLine();
 			}
 		}
-		while(naoEInt==true);
+		while(naoEInt == true);
 		return (numero);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
 	static String menuInicial() {																			// Mostra o menu inicial.
 		System.out.println("(I)nserir linhas no fim (termine com uma linha vazia)");					
 		System.out.println("(L)istar linhas");
@@ -115,7 +115,8 @@ public class Trabalho2 {
 
 		else {
 			System.out.println("Qual a posição em que deseja inserir uma linha?");				// Pede uma posição ao utilizador para inserir uma linha.
-			int inserirL = input.nextInt();														// Guardamos o que o utilizador introduz na consola na variável inserirL, que simboliza o número da linha onde o utilizador quer introduzir a linha. 
+			int inserirL = 0;
+			inserirL = pedeInteiro(inserirL);														// Guardamos o que o utilizador introduz na consola na variável inserirL, que simboliza o número da linha onde o utilizador quer introduzir a linha. 
 			input.nextLine();																	// Faz uma limpeza do scanner.
 			if(inserirL > 0 && inserirL <= nLinhas) {											// Este if faz uma validação do número da linha introduzida pelo utilizador.
 				for(int i = 0; i <= nLinhas-inserirL; i++) {									// Este for percorre os arrays linhas[] e apagada[] desde a última linha até à linha que o utilizador escolheu, representando isso o intervalo (nLinhas-inserirL).									
@@ -207,6 +208,8 @@ public class Trabalho2 {
 				else {
 					apagada[(i)] = false;
 				}
+				linhas[nLinhas]="";
+				apagada[nLinhas]=false;
 				nLinhas--;																	// Reduz o número total de linhas porque retiramos uma por cada vez que i soma +1.
 				i--;  																		// Serve para quando encontrarmos uma linha oculta, após fazerem-se as trocas de strings e booleans entre as linhas, para voltar a verificar se a linha que eliminou voltou a tomar o valor de oculta (se a linha que estava por baixo também era oculta).							
 			}
@@ -244,14 +247,14 @@ public class Trabalho2 {
 	}
 
 	static void procuraPalavra(int num) {
-		
+
 	}
 	static void susbstituirPalavraP(String[] linhas) {
 		int numLinha = 0;
 		boolean encontrouPalavra = false;
 		do {																				// Este do while certifica-se de que a linha onde vamos substituir a palavra é válida.
 			System.out.println("Qual a linha em que deseja substituir a palavra?");
-			numLinha = input.nextInt(); 
+			numLinha = pedeInteiro(numLinha); 
 			input.nextLine();
 			if(numLinha > nLinhas || numLinha <= 0) {													
 				System.out.println("Número de linha inválido.");							// No caso da linha ser inválida avisa o utilizador.			
