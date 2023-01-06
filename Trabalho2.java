@@ -5,34 +5,34 @@ public class Trabalho2 {
 	 * Pedro Daniel Ribeiro Duarte Nº20221701 Engenharia Informática TP5
 	 */
 
-	public static int nLinhas = 0;
 	public static Scanner input = new Scanner(System.in);
 
-
+	//ToDO
+	static int contaNLinhas(int nLinhas, int tamMax, String[] linhas) {
+		nLinhas=0;
+		for (int i=0;i<tamMax;i++) {
+			if(linhas[i]!=null) {
+				nLinhas++;
+			}
+		}
+		return(nLinhas);	
+	}
 	static int pedeInteiro(int numero) {
 		boolean naoEInt = true;
 		do{
-
 			if(input.hasNextInt()) {
 				numero = input.nextInt();		
 				naoEInt = false;
+				
 			}
 			else {
 				System.out.println("Escreva um número válido!");
-				input.nextLine();
+				input.nextLine();	
 			}
 		}
 		while(naoEInt == true);
 		return (numero);
 	}
-
-
-
-
-
-
-
-
 
 	static String menuInicial() {																			// Mostra o menu inicial.
 		System.out.println("(I)nserir linhas no fim (termine com uma linha vazia)");					
@@ -64,9 +64,10 @@ public class Trabalho2 {
 		return input.nextLine();
 	}
 
-	static String[] inserirLinhaFim(int tamMax,String linhas[]){
+	static String[] inserirLinhaFim(int tamMax,String linhas[],int nLinhas){
 
 		String frase = " ";
+		nLinhas=contaNLinhas( nLinhas, tamMax, linhas);
 		if(nLinhas != tamMax) {																		// Verifica se foi atingido o tamMax o limite de linhas antes de podermos escrever linhas.
 			System.out.println("Escreva várias linhas, para terminar insira um linha vazia.");
 			while(frase != "" && (nLinhas <= 99)){													// Este while serve para inserir linhas enquanto o utilizador não der um enter vazio.
@@ -84,7 +85,8 @@ public class Trabalho2 {
 		return(linhas);
 	}
 
-	static void listarLinhas(boolean[] apagada, String[] linhas){
+	static void listarLinhas(boolean[] apagada, String[] linhas, int nLinhas,int tamMax){
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		for(int i = 0; i < nLinhas; i++) {															// Este for percorre os arrays apagada[] e linhas[], usando o apagada[] para verificar se pode ou não mostrar o que está guardado no array linhas[].
 			System.out.print("Linha Nº" + (i + 1) + " - ");											// Identifica a linha que será printada para uma mais fácil leitura. Usamos apenas um print porque não queremos passar de linha.
 			if(apagada[i] == false) {																// Verifica se o que ta escrito na linha i (que vai mudando consoante o for) do array apagado[]	é falso ou seja, se a frase está visível.							
@@ -108,7 +110,8 @@ public class Trabalho2 {
 		}
 	}
 
-	static void inserirLPosicaoN(int tamMax, String[] linhas, boolean[] apagada ) {
+	static void inserirLPosicaoN(int tamMax, String[] linhas, boolean[] apagada ,int nLinhas) {
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		if(nLinhas == tamMax) {																// No caso de o número de linhas já ser igual ao tamMax, não permite que esta funcionalidade continue porque não é possível adicionar mais linhas.
 			System.out.println("Chegou ao limite de linhas, para escrever mais terá que apagar uma destas.\n");	// Avisa o utilizador de que chegou ao limite de linhas e escreve uma solução ao seu problema.
 		}
@@ -136,11 +139,12 @@ public class Trabalho2 {
 
 	}
 
-	static void apagarLPosicaoN(boolean[] apagada) {
+	static void apagarLPosicaoN(boolean[] apagada,int tamMax,String[] linhas, int nLinhas) {
 		System.out.println("Qual a posição que deseja apagar?");							// Pedimos a posição a apagar ao utilizador.
 		int apagarL=0;
 		apagarL=pedeInteiro(apagarL);		
 		input.nextLine();
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		if(apagarL > 0 && apagarL <= nLinhas) {												// Verificamos se a linha introduzida é válida.
 			apagarLinha(apagada, apagarL);
 		}
@@ -149,14 +153,16 @@ public class Trabalho2 {
 		}
 	}
 
-	static void apagarIntervaloLinhas(boolean[] apagada) {
+	static void apagarIntervaloLinhas(boolean[] apagada, int tamMax, String[] linhas, int nLinhas) {
 		System.out.println("Qual a linha que em que deseja começar a apagar? ");			// Pedimos a linha onde o utilizador quer começar e acabar de apagar, guardando respetivamente estes valores nas variáveis apagarInicio e apagarFim.
 		int apagarInicio=0;
 		apagarInicio = pedeInteiro(apagarInicio);
 		System.out.println("Qual a última linha que deseja apagar? ");
 		int apagarFim=0;
+		input.nextLine();
 		apagarFim = pedeInteiro(apagarFim);
 		input.nextLine();
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		if(apagarInicio > 0 && apagarInicio < apagarFim && apagarFim <= nLinhas) {			// Este if verifica se as linhas têm valores válidos.
 			System.out.println("As linhas foram apagadas com sucesso!");
 			for(int i = 0; i <= apagarFim-apagarInicio; i++) {								// Este for percorre o intervalo (apagarFim-apagarInicio), ou seja percorre as linhas que o utilizador que apagar e altera os seus valores independentemente de como estejam para true no array apagada[].							
@@ -168,7 +174,8 @@ public class Trabalho2 {
 		}
 	}
 
-	static void recuperarLinha(boolean[] apagada, String[] linhas) {
+	static void recuperarLinha(boolean[] apagada, String[] linhas, int tamMax, int nLinhas) {
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		for(int i = 0; i < nLinhas; i++) {													// Este for mostra todas as linhas para o utilizador escolher a linha que vai recuperar.
 			System.out.print("Linha Nº" + (i+1) + " - ");
 			if (apagada[i] == false) {
@@ -194,21 +201,20 @@ public class Trabalho2 {
 		}
 	}
 
-	static void eliminarLinhasApagadas(boolean[] apagada, String[] linhas) {
+	static void eliminarLinhasApagadas(boolean[] apagada, String[] linhas, int tamMax, int nLinhas) {
 		int linhasOcultas = 0;
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		for(int i = 0; i < nLinhas; i++) {													// Este for percorre o array em busca de linhas ocultas.
 			if(apagada[i] == true) {														// Comparação de cada linha ao valor true (oculto).
 				linhasOcultas++;															// Caso a linha esteja oculta a variável linhasOcultas soma +1.
-				if(i < nLinhas-1) {
+				if(i < nLinhas) {
 					for(int l = i; l <= nLinhas; l++) {										// Este for percorre um array entre a linha i e a última linha do array ou seja entre i e nLinhas.
 						linhas[(l)] = linhas[l+1];											// Guarda todas as linhas por baixo da linha oculta numa posição acima.
 						apagada[(l)] = apagada[l+1];										// São guardados no array apagada[] os estados das linhas abaixo da linha oculta uma linha para cima.
 					}
 				}
-				else {
-					apagada[(i)] = false;
-				}
-				linhas[nLinhas]="";
+				
+				linhas[nLinhas]=null;
 				apagada[nLinhas]=false;
 				nLinhas--;																	// Reduz o número total de linhas porque retiramos uma por cada vez que i soma +1.
 				i--;  																		// Serve para quando encontrarmos uma linha oculta, após fazerem-se as trocas de strings e booleans entre as linhas, para voltar a verificar se a linha que eliminou voltou a tomar o valor de oculta (se a linha que estava por baixo também era oculta).							
@@ -226,11 +232,12 @@ public class Trabalho2 {
 		System.out.println("A opção introduzida é inválida!\n");
 	}
 
-	static void mostrarLinhasComPalavraP(String[] linhas) {
+	static void mostrarLinhasComPalavraP(String[] linhas, int tamMax, int nLinhas) {
 		String palavra = "";
 		System.out.println("Qual é a palavra que procura?");
 		palavra = input.nextLine();															// Pedimos ao utilizador a palavra que procuramos no texto.
 		boolean frasePrintada = false;														// Variável que verifica se encontramos a palavra que procuramos.
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		for(int i = 0; i < nLinhas; i++) {													// Percorre as linhas que foram inseridas uma a uma.
 			String palavras[] = linhas[i].split(" ");										// Guarda cada palavra de uma linha num array chamado palavras[].
 			for(int j = 0; j < palavras.length; j++) {										// Este for percorre o array palavras[], ou seja percorre todas as palavras da linha.
@@ -249,13 +256,14 @@ public class Trabalho2 {
 	static void procuraPalavra(int num) {
 
 	}
-	static void susbstituirPalavraP(String[] linhas) {
+	static void susbstituirPalavraP(String[] linhas, int tamMax, int nLinhas) {
 		int numLinha = 0;
 		boolean encontrouPalavra = false;
 		do {																				// Este do while certifica-se de que a linha onde vamos substituir a palavra é válida.
 			System.out.println("Qual a linha em que deseja substituir a palavra?");
 			numLinha = pedeInteiro(numLinha); 
 			input.nextLine();
+			nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 			if(numLinha > nLinhas || numLinha <= 0) {													
 				System.out.println("Número de linha inválido.");							// No caso da linha ser inválida avisa o utilizador.			
 			}
@@ -297,8 +305,9 @@ public class Trabalho2 {
 		}	
 	}
 
-	static void contarLinhasVisiveis(boolean[] apagada) {
+	static void contarLinhasVisiveis(boolean[] apagada, int tamMax, String[] linhas, int nLinhas) {
 		int fraseVisivel = 0;																// Inicializamos a variável fraseVisivel que vai contar quantas linhas estão visíveis.
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		for(int i = 0; i < nLinhas; i++) {													// Percorre as linhas inseridas.
 			if(apagada[i] == false) {														// Verifica se a linha está visível.
 				fraseVisivel++;																// Por cada linha visível ele soma +1 à variável fraseVisivel.
@@ -307,8 +316,9 @@ public class Trabalho2 {
 		System.out.println("O número de linhas visíveis é " + fraseVisivel + ".\n");		// Mostra quantas linhas estão visíveis.
 	}
 
-	static void contarPalavras(String[] linhas,int tamMax,int[] nPalavras) {
+	static void contarPalavras(String[] linhas,int tamMax,int[] nPalavras, int nLinhas) {
 		int contaPalavras = 0;																// Inicializa a variável que faz a soma de palavras de cada linha a zero.
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		for(int i = 0; i < nLinhas; i++) {													// Este for percorre as linhas inseridas.
 			String[] palavras = linhas[i].split(" ");												// Guardamos todas as palavras de cada linha num array chamado palavras[].
 			for(int j = 0; j < palavras.length; j++) {										// Este for percorre o array palavras[].
@@ -324,8 +334,9 @@ public class Trabalho2 {
 		}
 	}
 
-	static void contarCaracteres(String[] linhas, int[] nChars, int tamMax) {
+	static void contarCaracteres(String[] linhas, int[] nChars, int tamMax, int nLinhas) {
 		int contaChars = 0;																	// Inicializa a variável que faz a soma de caracteres de cada linha a zero.
+		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		for(int i = 0; i < nLinhas; i++) {													// Este for percorre as linhas do array linhas[].
 			for(int j = 0; j < linhas[i].length(); j++){									// Este for percorre todos os caracteres da linha i.
 				if(linhas[i].charAt(j) != ' ') {  											// Este if verifica se os caracteres são diferentes de um espaço vazio.
@@ -342,7 +353,7 @@ public class Trabalho2 {
 
 	public static void main(String[] args) {
 		//Scanner input = new Scanner(System.in);
-
+		int nLinhas=0;
 		int tamMax = 100;
 
 		String[] linhas = new String[tamMax];
@@ -359,16 +370,17 @@ public class Trabalho2 {
 			switch(userInput) {
 			case "I" :
 			case "i" :
-				inserirLinhaFim(tamMax,linhas);
+				inserirLinhaFim(tamMax, linhas, nLinhas);
 				break;
 
 			case "L" :
 			case "l" :
-				listarLinhas(apagada,linhas);
+				listarLinhas(apagada,linhas, nLinhas, tamMax);
 				break;
 
 			case "A" :
 			case "a" :
+				nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 				apagarLinha(apagada, nLinhas);
 				break;
 
@@ -381,27 +393,27 @@ public class Trabalho2 {
 
 					case "I" :
 					case "i" :
-						inserirLPosicaoN(tamMax, linhas, apagada);
+						inserirLPosicaoN(tamMax, linhas, apagada, nLinhas);
 						break;
 
 					case "A" :
 					case "a" :
-						apagarLPosicaoN(apagada);
+						apagarLPosicaoN(apagada, tamMax, linhas, nLinhas);
 						break;
 
 					case "l" :
 					case "L" :
-						apagarIntervaloLinhas(apagada);
+						apagarIntervaloLinhas(apagada, tamMax, linhas, nLinhas);
 						break;
 
 					case "R" :
 					case "r" :
-						recuperarLinha(apagada,linhas);
+						recuperarLinha(apagada,linhas, tamMax, nLinhas);
 						break;
 
 					case "E" :
 					case "e" :
-						eliminarLinhasApagadas(apagada, linhas);
+						eliminarLinhasApagadas(apagada, linhas, tamMax, nLinhas);
 						break;
 
 					case "V":
@@ -426,27 +438,27 @@ public class Trabalho2 {
 
 					case "M":
 					case "m":	
-						mostrarLinhasComPalavraP(linhas);
+						mostrarLinhasComPalavraP(linhas, tamMax, nLinhas);
 						break;
 
 					case "S" :
 					case "s" :
-						susbstituirPalavraP(linhas);
+						susbstituirPalavraP(linhas, tamMax, nLinhas);
 						break;
 
 					case "L" :
 					case "l" :
-						contarLinhasVisiveis(apagada);
+						contarLinhasVisiveis(apagada, tamMax, linhas, nLinhas);
 						break;
 
 					case "P" :
 					case "p" :
-						contarPalavras(linhas, tamMax, nPalavras);
+						contarPalavras(linhas, tamMax, nPalavras, nLinhas);
 						break;
 
 					case "C" :
 					case "c" :
-						contarCaracteres(linhas, nChars , tamMax);
+						contarCaracteres(linhas, nChars , tamMax, nLinhas);
 
 						break;
 					case "V":
