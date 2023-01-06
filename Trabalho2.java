@@ -352,8 +352,94 @@ public class Trabalho2 {
 		}
 	}
 
+static void casosMenuEditar(String userInput, int tamMax,String[] linhas,boolean[] apagada,int nLinhas ) {
+	do {
+		userInput = menuEditar();
+
+		switch(userInput) {
+
+		case "I" :
+		case "i" :
+			inserirLPosicaoN(tamMax, linhas, apagada, nLinhas);
+			break;
+
+		case "A" :
+		case "a" :
+			apagarLPosicaoN(apagada, tamMax, linhas, nLinhas);
+			break;
+
+		case "l" :
+		case "L" :
+			apagarIntervaloLinhas(apagada, tamMax, linhas, nLinhas);
+			break;
+
+		case "R" :
+		case "r" :
+			recuperarLinha(apagada,linhas, tamMax, nLinhas);
+			break;
+
+		case "E" :
+		case "e" :
+			eliminarLinhasApagadas(apagada, linhas, tamMax, nLinhas);
+			break;
+
+		case "V":
+		case "v":
+			System.out.println();
+			break;
+
+		default:																				// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
+			mensagemPadrao();
+			break;
+		}
+	}
+	while(!(userInput.equals("v") || userInput.equals("V")));
+}
+
+static void casosMenuFerramentas(String userInput, String[] linhas, int tamMax, int nLinhas, boolean[] apagada, int[] nPalavras, int[] nChars) {
+	do { 
+		userInput = menuFerramentas();													// A opcaoFerramentas é a variável deste menu de modo a evitar que caso o utilizador escolha a opção "s" no menu editar, o switch do menu principal não entre dentro do case "s" do menu principal.
+
+		switch(userInput) {
+
+		case "M":
+		case "m":	
+			mostrarLinhasComPalavraP(linhas, tamMax, nLinhas);
+			break;
+
+		case "S" :
+		case "s" :
+			susbstituirPalavraP(linhas, tamMax, nLinhas);
+			break;
+
+		case "L" :
+		case "l" :
+			contarLinhasVisiveis(apagada, tamMax, linhas, nLinhas);
+			break;
+
+		case "P" :
+		case "p" :
+			contarPalavras(linhas, tamMax, nPalavras, nLinhas);
+			break;
+
+		case "C" :
+		case "c" :
+			contarCaracteres(linhas, nChars , tamMax, nLinhas);
+
+			break;
+		case "V":
+		case "v":
+			System.out.println();
+			break;
+		default:																				// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
+			mensagemPadrao();
+			break;
+		}
+	}
+	while(!(userInput.equals("v") || userInput.equals("V")));
+}
+
 	public static void main(String[] args) {
-		//Scanner input = new Scanner(System.in);
 		int nLinhas=0;
 		int tamMax = 100;
 
@@ -363,7 +449,6 @@ public class Trabalho2 {
 		boolean[] apagada = new boolean[tamMax];
 
 		String userInput;
-		String opcaoFerramenta;
 
 		do {
 			userInput =	menuInicial();
@@ -376,7 +461,7 @@ public class Trabalho2 {
 
 			case "L" :
 			case "l" :
-				listarLinhas(apagada,linhas, nLinhas, tamMax);
+				listarLinhas(apagada, linhas, nLinhas, tamMax);
 				break;
 
 			case "A" :
@@ -387,91 +472,12 @@ public class Trabalho2 {
 
 			case "E" :
 			case "e" :
-				do {
-					userInput = menuEditar();
-
-					switch(userInput) {
-
-					case "I" :
-					case "i" :
-						inserirLPosicaoN(tamMax, linhas, apagada, nLinhas);
-						break;
-
-					case "A" :
-					case "a" :
-						apagarLPosicaoN(apagada, tamMax, linhas, nLinhas);
-						break;
-
-					case "l" :
-					case "L" :
-						apagarIntervaloLinhas(apagada, tamMax, linhas, nLinhas);
-						break;
-
-					case "R" :
-					case "r" :
-						recuperarLinha(apagada,linhas, tamMax, nLinhas);
-						break;
-
-					case "E" :
-					case "e" :
-						eliminarLinhasApagadas(apagada, linhas, tamMax, nLinhas);
-						break;
-
-					case "V":
-					case "v":
-						System.out.println();
-						break;
-
-					default:																				// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
-						mensagemPadrao();
-						break;
-					}
-				}
-				while(!(userInput.equals("v") || userInput.equals("V")));
+				casosMenuEditar(userInput, tamMax, linhas, apagada, nLinhas );
 				break;																						// Este while faz com que apareça este menu sucessivamente até que o utilizador queira sair deste menu.
 
 			case "F" :
 			case "f" :
-				do {
-					opcaoFerramenta = menuFerramentas();													// A opcaoFerramentas é a variável deste menu de modo a evitar que caso o utilizador escolha a opção "s" no menu editar, o switch do menu principal não entre dentro do case "s" do menu principal.
-
-					switch(opcaoFerramenta) {
-
-					case "M":
-					case "m":	
-						mostrarLinhasComPalavraP(linhas, tamMax, nLinhas);
-						break;
-
-					case "S" :
-					case "s" :
-						susbstituirPalavraP(linhas, tamMax, nLinhas);
-						break;
-
-					case "L" :
-					case "l" :
-						contarLinhasVisiveis(apagada, tamMax, linhas, nLinhas);
-						break;
-
-					case "P" :
-					case "p" :
-						contarPalavras(linhas, tamMax, nPalavras, nLinhas);
-						break;
-
-					case "C" :
-					case "c" :
-						contarCaracteres(linhas, nChars , tamMax, nLinhas);
-
-						break;
-					case "V":
-					case "v":
-						System.out.println();
-						break;
-					default:																				// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
-						mensagemPadrao();
-						break;
-					}
-				}
-				while(!(opcaoFerramenta.equals("v") || opcaoFerramenta.equals("V")));
+				casosMenuFerramentas(userInput, linhas, tamMax, nLinhas, apagada, nPalavras, nChars);
 				break;																						// Este while faz com que apareça este menu sucessivamente até que o utilizador queira sair deste menu.
 
 			case "s":
@@ -480,8 +486,7 @@ public class Trabalho2 {
 
 			default:																						// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
 				mensagemPadrao();
-			}
-			
+			}	
 		} 
 		while(!(userInput.equals("s") || userInput.equals("S")));											// Este while faz com que apareça este menu sucessivamente até que o utilizador queira sair deste menu.
 		System.out.println("Saiu do programa.");
