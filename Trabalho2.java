@@ -5,9 +5,11 @@ public class Trabalho2 {
 	 * Pedro Daniel Ribeiro Duarte Nº20221701 Engenharia Informática TP5
 	 */
 
-	public static Scanner input = new Scanner(System.in);
-
-	//ToDO
+	static String usarScannerStringChar() {
+		Scanner input = new Scanner(System.in);
+		String userEscreveString=input.nextLine();
+		return(userEscreveString);
+	}
 	static int contaNLinhas(int nLinhas, int tamMax, String[] linhas) {
 		nLinhas=0;
 		for (int i=0;i<tamMax;i++) {
@@ -18,6 +20,7 @@ public class Trabalho2 {
 		return(nLinhas);	
 	}
 	static int pedeInteiro(int numero) {
+		Scanner input = new Scanner(System.in);
 		boolean naoEInt = true;
 		do{
 			if(input.hasNextInt()) {
@@ -31,6 +34,7 @@ public class Trabalho2 {
 			}
 		}
 		while(naoEInt == true);
+		//input.close();
 		return (numero);
 	}
 
@@ -41,7 +45,8 @@ public class Trabalho2 {
 		System.out.println("(E)ditar");
 		System.out.println("(F)erramentas");
 		System.out.println("(S)air");
-		return input.nextLine();
+		String escolhaMenuI=usarScannerStringChar();
+		return escolhaMenuI;
 	}
 
 	static String menuEditar() {																			// Mostra o menu editar.
@@ -51,7 +56,8 @@ public class Trabalho2 {
 		System.out.println("(R)ecuperar linha");
 		System.out.println("(E)liminar linhas apagadas");
 		System.out.println("(V)oltar");	
-		return input.nextLine();
+		String escolhaMenuI=usarScannerStringChar();
+		return escolhaMenuI;
 	}
 
 	static String menuFerramentas() {																		// Mostra o menu Ferramentas.
@@ -61,7 +67,8 @@ public class Trabalho2 {
 		System.out.println("Mostrar número de (p)palavras.");
 		System.out.println("Mostrar número de (c)aracteres.");
 		System.out.println("\n(V)oltar.");
-		return input.nextLine();
+		String escolhaMenuI=usarScannerStringChar();
+		return escolhaMenuI;
 	}
 
 	static String[] inserirLinhaFim(int tamMax,String linhas[],int nLinhas){
@@ -71,7 +78,8 @@ public class Trabalho2 {
 		if(nLinhas != tamMax) {																		// Verifica se foi atingido o tamMax o limite de linhas antes de podermos escrever linhas.
 			System.out.println("Escreva várias linhas, para terminar insira um linha vazia.");
 			while(frase != "" && (nLinhas <= 99)){													// Este while serve para inserir linhas enquanto o utilizador não der um enter vazio.
-				frase = input.nextLine();															// Armazena numa variável chamada frase cada linha escrita pelo utilizador. 
+				frase = usarScannerStringChar();															// Armazena numa variável chamada frase cada linha escrita pelo utilizador. 
+				
 				if(frase != "") {																	// Este if verifica se a variável frase tem algo escrito, para não contar o enter que finaliza esta ferramenta nos contadores nLinhas e linhasAdicionadas e para não adicionar nada no array linhas[].
 					nLinhas++;																		// Por cada vez que este if é ativo dentro do while é somado +1 à variável nLinhas porque por cada vez que isto acontece também é inserida uma linha pelo utilizador e guardado no array linhas[].
 					linhas[nLinhas-1] = frase;														// No caso da string frase conter texto este é guardado no array linhas[].
@@ -103,7 +111,7 @@ public class Trabalho2 {
 	static void apagarLinha(boolean[] apagada, int apagarL) {
 		if(apagada[apagarL-1] == false) {															// Verifica se a última linha está visível.
 			apagada[apagarL-1] = true;																// Caso a linha esteja visível mudamos o valor desta variável para true no array apagada[].
-			System.out.println("A linha foi apagada.");											// Mostra uma mensagem que confirma ao utilizador que a linha foi apagada.
+			System.out.println("A linha foi apagada.\n");											// Mostra uma mensagem que confirma ao utilizador que a linha foi apagada.
 		}
 		else {
 			System.out.println("A linha já se encontra apagada.");							// No caso da última linha já esta apagada ou seja com o valor true no array apagada[], mostramos só uma mensagem ao utilizador que diz isso mesmo.
@@ -119,15 +127,16 @@ public class Trabalho2 {
 		else {
 			System.out.println("Qual a posição em que deseja inserir uma linha?");				// Pede uma posição ao utilizador para inserir uma linha.
 			int inserirL = 0;
-			inserirL = pedeInteiro(inserirL);														// Guardamos o que o utilizador introduz na consola na variável inserirL, que simboliza o número da linha onde o utilizador quer introduzir a linha. 
-			input.nextLine();																	// Faz uma limpeza do scanner.
+			
+			inserirL = pedeInteiro(inserirL);													// Guardamos o que o utilizador introduz na consola na variável inserirL, que simboliza o número da linha onde o utilizador quer introduzir a linha. 
+																				// Faz uma limpeza do scanner.
 			if(inserirL > 0 && inserirL <= nLinhas) {											// Este if faz uma validação do número da linha introduzida pelo utilizador.
 				for(int i = 0; i <= nLinhas-inserirL; i++) {									// Este for percorre os arrays linhas[] e apagada[] desde a última linha até à linha que o utilizador escolheu, representando isso o intervalo (nLinhas-inserirL).									
 					linhas[nLinhas-i] = linhas[nLinhas-1-i];									// Guardamos os valores por baixo da linha que vai ser introduzida do array linhas[] no espaço seguinte do mesmo array. 
 					apagada[nLinhas-i] = apagada[nLinhas-1-i];									// Guardamos os valores por baixo da linha que vai ser introduzida do array apagada[] no espaço seguinte do mesmo array.
 				}
-				System.out.print("Escreva uma linha: ");										// Pedimos o texto ao utilizador para ele por na linha.			
-				linhas[inserirL-1] = input.nextLine();											// E guardamos esse texto na posição correspondente no array linhas[] a inserirL.
+				System.out.print("Escreva uma linha: \n");										// Pedimos o texto ao utilizador para ele por na linha.			
+				linhas[inserirL-1] = usarScannerStringChar();											// E guardamos esse texto na posição correspondente no array linhas[] a inserirL.
 				apagada[inserirL-1] = false;													// Tornamos essa linha visível independentemente do seu estado anterior.
 				nLinhas++;																		// Como adicionamos uma linha adicionamos +1 à variável nLinhas.
 			}
@@ -136,14 +145,12 @@ public class Trabalho2 {
 			}
 		}
 
-
 	}
 
 	static void apagarLPosicaoN(boolean[] apagada,int tamMax,String[] linhas, int nLinhas) {
 		System.out.println("Qual a posição que deseja apagar?");							// Pedimos a posição a apagar ao utilizador.
 		int apagarL=0;
 		apagarL=pedeInteiro(apagarL);		
-		input.nextLine();
 		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		if(apagarL > 0 && apagarL <= nLinhas) {												// Verificamos se a linha introduzida é válida.
 			apagarLinha(apagada, apagarL);
@@ -159,9 +166,7 @@ public class Trabalho2 {
 		apagarInicio = pedeInteiro(apagarInicio);
 		System.out.println("Qual a última linha que deseja apagar? ");
 		int apagarFim=0;
-		input.nextLine();
 		apagarFim = pedeInteiro(apagarFim);
-		input.nextLine();
 		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		if(apagarInicio > 0 && apagarInicio < apagarFim && apagarFim <= nLinhas) {			// Este if verifica se as linhas têm valores válidos.
 			System.out.println("As linhas foram apagadas com sucesso!");
@@ -188,7 +193,6 @@ public class Trabalho2 {
 		System.out.println("\nPretende recuperar qual das linhas?");
 		int recuperarL = 0;
 		recuperarL = pedeInteiro(recuperarL);												// Pedimos ao utilizador a posição da linha para recuperar.
-		input.nextLine();
 		if(recuperarL < 1 || recuperarL > nLinhas) {										// Verificamos se é uma linha válida e informamos o utilizador caso não seja.
 			System.out.println("A linha introduzida foi inválida!");
 		}
@@ -235,7 +239,7 @@ public class Trabalho2 {
 	static void mostrarLinhasComPalavraP(String[] linhas, int tamMax, int nLinhas) {
 		String palavra = "";
 		System.out.println("Qual é a palavra que procura?");
-		palavra = input.nextLine();															// Pedimos ao utilizador a palavra que procuramos no texto.
+		palavra = usarScannerStringChar();														// Pedimos ao utilizador a palavra que procuramos no texto.
 		boolean frasePrintada = false;														// Variável que verifica se encontramos a palavra que procuramos.
 		nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 		for(int i = 0; i < nLinhas; i++) {													// Percorre as linhas que foram inseridas uma a uma.
@@ -262,7 +266,6 @@ public class Trabalho2 {
 		do {																				// Este do while certifica-se de que a linha onde vamos substituir a palavra é válida.
 			System.out.println("Qual a linha em que deseja substituir a palavra?");
 			numLinha = pedeInteiro(numLinha); 
-			input.nextLine();
 			nLinhas=contaNLinhas(nLinhas, tamMax, linhas);
 			if(numLinha > nLinhas || numLinha <= 0) {													
 				System.out.println("Número de linha inválido.");							// No caso da linha ser inválida avisa o utilizador.			
@@ -270,8 +273,7 @@ public class Trabalho2 {
 		}
 		while(numLinha > nLinhas || numLinha <= 0);
 		System.out.println("Qual é a palavra que procura?");
-		String palavraProcurada = input.next();												// Guardamos a palavra que vamos procurar na linha.
-		input.nextLine();
+		String palavraProcurada = usarScannerStringChar();					 				// Guardamos a palavra que vamos procurar na linha.
 
 		String palavras[] = linhas[numLinha-1].split(" "); 									// Guardamos todas as palavras da linha numLinha num array chamado palavras[]. 
 		for(int j = 0; j < palavras.length; j++) {											// Este for percorre o array palavras[] todo.
@@ -285,8 +287,7 @@ public class Trabalho2 {
 		}
 		else {																				// No caso de encontrar a palavra.
 			System.out.println("Qual é a palavra que substituirá?");
-			String palavraSubstituta = input.next();										// Guardamos a palavra que vamos substituir na linha.
-			input.nextLine();
+			String palavraSubstituta = usarScannerStringChar();								// Guardamos a palavra que vamos substituir na linha.
 
 			for(int i = 0; i < palavras.length; i++) {										// Este for percorre o array de palavras[].
 				if(palavras[i].equals(palavraProcurada)) {									// Compara as palavras do array com a palavraProcurada.
@@ -480,9 +481,9 @@ public class Trabalho2 {
 			default:																						// No caso de o utilizador não introduzir um caracter inválido, avisa o utilizador disso.
 				mensagemPadrao();
 			}
+			
 		} 
 		while(!(userInput.equals("s") || userInput.equals("S")));											// Este while faz com que apareça este menu sucessivamente até que o utilizador queira sair deste menu.
 		System.out.println("Saiu do programa.");
-		input.close();
 	}
 }
