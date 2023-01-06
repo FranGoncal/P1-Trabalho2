@@ -2,12 +2,38 @@ import java.util.Scanner;
 public class Trabalho2 {
 	/*
 	 * Francisco Mateus Goncalves Nº20221849 Engenharia Informática	TP5
-	 * Pedro Daniel Duarte Nº20221701 Engenharia Informática TP5
+	 * Pedro Daniel Ribeiro Duarte Nº20221701 Engenharia Informática TP5
 	 */
 
 	public static int nLinhas = 0;
 	public static Scanner input = new Scanner(System.in);
 
+	
+	static int pedeInteiro(int numero) {
+		boolean naoEInt=true;
+		do{
+			
+			if(input.hasNextInt()) {
+				numero=input.nextInt();		
+				naoEInt=false;
+			}
+			else {
+				System.out.println("Escreva um número válido!");
+				input.nextLine();
+			}
+		}
+		while(naoEInt==true);
+		return (numero);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	static String menuInicial() {																			// Mostra o menu inicial.
 		System.out.println("(I)nserir linhas no fim (termine com uma linha vazia)");					
 		System.out.println("(L)istar linhas");
@@ -75,10 +101,10 @@ public class Trabalho2 {
 	static void apagarLinha(boolean[] apagada, int apagarL) {
 		if(apagada[apagarL-1] == false) {															// Verifica se a última linha está visível.
 			apagada[apagarL-1] = true;																// Caso a linha esteja visível mudamos o valor desta variável para true no array apagada[].
-			System.out.println("A linha foi apagada.\n");											// Mostra uma mensagem que confirma ao utilizador que a linha foi apagada.
+			System.out.println("A linha foi apagada.");											// Mostra uma mensagem que confirma ao utilizador que a linha foi apagada.
 		}
 		else {
-			System.out.println("A linha já se encontra apagada.\n");							// No caso da última linha já esta apagada ou seja com o valor true no array apagada[], mostramos só uma mensagem ao utilizador que diz isso mesmo.
+			System.out.println("A linha já se encontra apagada.");							// No caso da última linha já esta apagada ou seja com o valor true no array apagada[], mostramos só uma mensagem ao utilizador que diz isso mesmo.
 		}
 	}
 
@@ -111,7 +137,8 @@ public class Trabalho2 {
 
 	static void apagarLPosicaoN(boolean[] apagada) {
 		System.out.println("Qual a posição que deseja apagar?");							// Pedimos a posição a apagar ao utilizador.
-		int apagarL = input.nextInt();														// Guardamos essa posição na variável apagarL.
+		int apagarL=0;
+		apagarL=pedeInteiro(apagarL);		
 		input.nextLine();
 		if(apagarL > 0 && apagarL <= nLinhas) {												// Verificamos se a linha introduzida é válida.
 			apagarLinha(apagada, apagarL);
@@ -123,9 +150,11 @@ public class Trabalho2 {
 
 	static void apagarIntervaloLinhas(boolean[] apagada) {
 		System.out.println("Qual a linha que em que deseja começar a apagar? ");			// Pedimos a linha onde o utilizador quer começar e acabar de apagar, guardando respetivamente estes valores nas variáveis apagarInicio e apagarFim.
-		int apagarInicio = input.nextInt();
+		int apagarInicio=0;
+		apagarInicio = pedeInteiro(apagarInicio);
 		System.out.println("Qual a última linha que deseja apagar? ");
-		int apagarFim = input.nextInt();
+		int apagarFim=0;
+		apagarFim = pedeInteiro(apagarFim);
 		input.nextLine();
 		if(apagarInicio > 0 && apagarInicio < apagarFim && apagarFim <= nLinhas) {			// Este if verifica se as linhas têm valores válidos.
 			System.out.println("As linhas foram apagadas com sucesso!");
@@ -149,7 +178,8 @@ public class Trabalho2 {
 			}
 		}
 		System.out.println("\nPretende recuperar qual das linhas?");
-		int recuperarL = input.nextInt();													// Pedimos ao utilizador a posição da linha para recuperar.
+		int recuperarL = 0;
+		recuperarL = pedeInteiro(recuperarL);												// Pedimos ao utilizador a posição da linha para recuperar.
 		input.nextLine();
 		if(recuperarL < 1 || recuperarL > nLinhas) {										// Verificamos se é uma linha válida e informamos o utilizador caso não seja.
 			System.out.println("A linha introduzida foi inválida!");
